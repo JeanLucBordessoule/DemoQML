@@ -3,8 +3,10 @@ cmake_minimum_required(VERSION 3.16)
 project(DemoQML VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# required when using a .qrc. (New File > Qt > Qt resource File). Must be before "qt_add_qml_module"
+set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -16,6 +18,10 @@ qt_add_qml_module(appDemoQML
     URI DemoQML
     VERSION 1.0
     QML_FILES Main.qml
+    RESOURCES resource.qrc
+    QML_FILES MainPage1.qml
+    QML_FILES MainPage2.qml
+    QML_FILES MainPage3.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -30,8 +36,9 @@ set_target_properties(appDemoQML PROPERTIES
 )
 
 target_link_libraries(appDemoQML
-    PRIVATE Qt6::Quick
+    PRIVATE Qt6::Quick Qt6::QuickControls2
 )
+
 
 include(GNUInstallDirs)
 install(TARGETS appDemoQML
