@@ -13,15 +13,33 @@ ApplicationWindow {
     visible: true
     title: qsTr("Hello QML")
 
+    // Message dialog to confirm the exit of the application
+    onClosing: function(close) {
+        close.accepted = false // can't close by pressing the X button from the system bar
+        mainMsgDlgId.open()
+    }
     MessageDialog {
-        id: mainMsgDgId
+        id: mainMsgDlgId
         title: qsTr("Exit ?")
         text: qsTr("Do you want to exit?")
-        buttons: MessageDialog.Ok | MessageDialog.Close // MessageDialog.Yes | MessageDialog.No
-        onAccepted: { Qt.exit(0) }
-        onRejected: { console.log("Exit cancelled") }
+        buttons:  MessageDialog.Yes | MessageDialog.No // MessageDialog.Ok | MessageDialog.Close //
+        onButtonClicked: function (button, role) {
+            switch (button) {
+            case MessageDialog.Yes: { Qt.exit(0); break }
+            case MessageDialog.No: { console.log("No"); break }
+            //case MessageDialog.Ok: { Qt.exit(0); break }
+            //case MessageDialog.Close: { console.log("Close"); break }
+            }
+        }
+        //onAccepted: { Qt.exit(0) } // Ok
+        //onRejected: { console.log("Exit cancelled") } // Close
     }
 
+    // windows with demos
+    Chap02_01 { id: chap02_01_Id; visible: false }
+    Chap09_01 { id: chap09_01_Id; visible: false }
+
+    // menubar , toolbar, main window and footer of the applicaation window
     menuBar : MenuBar {
         Menu {
             title: qsTr("File")
@@ -31,8 +49,25 @@ ApplicationWindow {
                 text: qsTr("Exit")
                 shortcut: "Ctrl+Q"
                 onTriggered : {
-                    console.log("exit")
-                    mainMsgDgId.open()
+                    mainMsgDlgId.open()
+                }
+            }
+        }
+        Menu {
+            title: qsTr("View")
+            Action {
+                id: viewRectanglesId
+                text: qsTr("02.01 Rectangles")
+                onTriggered : {
+                    chap02_01_Id.show()
+                }
+            }
+            MenuSeparator {}
+            Action {
+                id: viewDialogsId
+                text: qsTr("09.01 Dialogs")
+                onTriggered : {
+                    chap09_01_Id.show()
                 }
             }
         }
