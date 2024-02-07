@@ -33,6 +33,7 @@ Window {
     }
     FontDialog {
         id: fontDlgId
+        modality: Qt.NonModal
         onAccepted: {
             labelId.font = selectedFont
         }
@@ -90,6 +91,14 @@ Window {
         Button {
             text: qsTr("Font")
             onClicked: {
+                fontDlgId.modality = Qt.WindowModal
+                fontDlgId.open()
+            }
+        }
+        Button {
+            text: qsTr("Font (not modal)")
+            onClicked: {
+                fontDlgId.modality = Qt.NonModal
                 fontDlgId.open()
             }
         }
