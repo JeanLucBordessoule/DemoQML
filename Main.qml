@@ -1,3 +1,4 @@
+import QtCore // Settings
 import QtQuick  // required for base types (Row Rectanglr, ...)
 import QtQuick.Controls
 import QtQuick.Dialogs  // MessageDialog
@@ -107,6 +108,7 @@ ApplicationWindow {
     footer: TabBar {
         width: parent.width
         TabButton {
+            id: tab1Id
             text: qsTr("1")
             onClicked: {
                 console.log("1")
@@ -115,6 +117,7 @@ ApplicationWindow {
             }
         }
         TabButton {
+            id: tab2Id
             text: qsTr("2")
             onClicked: {
                 console.log("2")
@@ -123,6 +126,7 @@ ApplicationWindow {
             }
         }
         TabButton {
+            id: tab3Id
             text: qsTr("3")
             onClicked: {
                 console.log("3")
@@ -131,4 +135,12 @@ ApplicationWindow {
             }
         }
     }
+
+    // page 534: chapter 13: Settings:
+    Settings {
+        id: colorsSettingsId
+        category: "colors"
+        // property alias tab1Color: mainRect1.color
+    }
+
 }
